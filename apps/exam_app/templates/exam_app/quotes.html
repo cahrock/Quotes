@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Quotes</title>
+    <style media="screen">
+        .wrapper{margin:auto;width:800px;display: flex;flex-flow: row wrap;;justify-content: center;font-size: 14px;
+        }
+        .box{margin:20px;width:325px;padding: 10px;border: .5px solid black;display: block;
+        }
+        .box-q{margin: auto;padding: 5px;width: 300px;
+        }
+        .add-q{margin:auto;padding: 5px;
+        }
+        form {text-align: center;display: block;
+        }
+        input{margin: 5px;padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h3>Welcome, {{request.session.loggedin_user}} !</h3>
+    <a href="/exam_app/logout">Logout</a> <hr>
+    <div class="wrapper">
+        <div class="">
+            <fieldset>
+                <legend>
+                    <h4>Quotable Quotes</h4>
+                </legend>
+                {% for i in items %}
+                <div class="box-q">
+                    <p><i>"{{i.quote}}" - <span><strong>{{i.quoted_by}}</strong></span></i></p>
+                    <p style="font-size=10px"><span><i>posted by: <a href="/exam_app/profile/{{i.posted_by.id}}">{{i.posted_by.last_name}}</a></i></span></p>
+                    <form class="" action="/exam_app/addfav/{{i.id}}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" name="add_fav" value="Add to Favorites">
+                    </form>
+                    <hr>
+                </div>
+                {% endfor %}
+            </fieldset>
+
+
+        </div>
+        <div class="">
+            <fieldset>
+                <legend>
+                    <h4>Favorites Quotes</h4>
+                </legend>
+                {% for i in itemsfav %}
+                <div class="box-q">
+                    <p><i>"{{i.quote}}" - <span><strong>{{i.quoted_by}}</strong></span></i></p>
+                    <p style="font-size=10px"><span><i>posted by: <a href="/exam_app/profile/{{i.posted_by.id}}">{{i.posted_by.last_name}}</a></i></span></p>
+
+                    <form class="" action="/exam_app/removefav/{{i.id}}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" name="btn_removefav" value="Remove from favorites">
+                    </form>
+                    <hr>
+                </div>
+                {% endfor %}
+            </fieldset>
+    </div>
+    <div class="">
+        {% load staticfiles %}
+            {% if messages %}
+                {% for i in messages %}
+                <li class="required">{{i}}</li>
+                {% endfor %}
+            {%endif%}
+        {{message}}
+    </div>
+    <form class="" action="/exam_app/addquotes" method="post">
+        {% csrf_token %}
+        <fieldset style="text-align:center">
+            <legend>
+                <h4>Add Quotes</h4>
+            </legend>
+            Quoted by:
+            <input type="text" name="quotedby" value="">
+            Add a quote:
+            <textarea name="addquotes" rows="3" cols="60"></textarea>
+            <input type="submit" name="submit" value="Submit">
+        </fieldset>
+    </form>
+</body>
+</html>

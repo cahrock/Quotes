@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login & Registration</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'login_app/css/style.css' %}" media="screen" title="no title"  charset="utf-8">
+</head>
+<body>
+    <div class="wrapper">
+        <div>
+            {% load staticfiles %}
+                {% if messages %}
+                    {% for i in messages %}
+                    <li class="required">{{i}}</li>
+                    {% endfor %}
+                {%endif%}
+            {{message}}
+        </div>
+        <div class="">
+            {% for i in items %}
+            <li>email: {{i.email}} , password: {{i.password}}</li>
+            {%endfor%}
+        </div>
+        <div class="">
+
+        </div>
+        <div class="main_content">
+            <form action="/login" method="POST">
+                {% csrf_token %}
+                <div class="login">
+                    <div class="login-screen">
+                        <div class="app-title">
+                            <h1>Login</h1>
+                        </div>
+
+                        <div class="login-form">
+                            <div class="control-group">
+                            <input type="text" class="login-field" value="" placeholder="email" name="email">
+                            <label class="login-field-icon fui-user" for="login-name"></label>
+                            </div>
+
+                            <div class="control-group">
+                            <input type="password" class="login-field" value="" placeholder="password" name="password">
+                            <label class="login-field-icon fui-lock" for="login-pass"></label>
+                            </div>
+
+                            <input type="submit" value="Log in" class="btn" >
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <form action="/register" name="emailForm" method="post">
+                {% csrf_token %}
+                <div class="login">
+                    <div class="login-screen">
+                        <div class="app-title">
+                            <h1>Register</h1>
+                        </div>
+
+                        <div class="login-form">
+                            <div class="control-group">
+                                <input type='text' name="first_name" id="txt_Fname" placeholder='Name'/>
+                            </div>
+                            <div class="control-group">
+                                <input type='text' name="last_name" id="txt_Lname" placeholder='Alias'/>
+                            </div>
+                            <div class="control-group">
+                                <input type='text' name="email" id='txt_Email' placeholder='Valid Email Address'/>
+                            </div>
+                            <div class="control-group">
+                                <input type='text' name="password" id="password" placeholder='Password'/>
+                            </div>
+                            <div class="control-group">
+                                <input type='text' name="confirm" id="txt_Confpaswd" placeholder='Confirm password'/>
+                            </div>
+                            <div class="control-group">
+                                <input type='date' name="dob" id="dob"/>
+                            </div>
+                            <input type="submit" value="Register" class="btn" >
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
